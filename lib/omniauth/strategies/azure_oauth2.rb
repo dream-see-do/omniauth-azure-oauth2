@@ -60,7 +60,9 @@ module OmniAuth
       end
 
       def callback_url
-        full_host + script_name + callback_path
+        # Azure only allows localhost for non-https callback urls
+        callback_host = Rails.env.development? ? 'http://localhost:3000' : full_host
+        callback_host + script_name + callback_path
       end
 
       def raw_info
